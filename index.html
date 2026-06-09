@@ -8,112 +8,122 @@
 <meta name="description" content="Full-stack engineer — dashboards, real-time systems, cross-platform mobile." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
     color-scheme:light only;
-    --bg:#FAFAF8;
-    --ink:#111110;
-    --ink-2:#444440;
-    --ink-3:#888884;
-    --line:#E4E4E0;
-    --accent:#2B2BD4;
-    --accent-bg:#F0F0FC;
+    --bg:#F7F6F3;
+    --card:#FFFFFF;
+    --ink:#0E0E0C;
+    --ink-2:#3D3D39;
+    --ink-3:#888882;
+    --line:#E2E1DC;
+    --accent:#2626CC;
+    --accent-light:#EEEEFF;
     --font:"Inter",system-ui,sans-serif;
     --mono:"JetBrains Mono",monospace;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  html{background:var(--bg)}
-  body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  html,body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:13.5px;line-height:1.6;-webkit-font-smoothing:antialiased}
   a{color:inherit;text-decoration:none}
 
-  .page{max-width:740px;margin:0 auto;padding:64px 32px 80px}
+  /* layout */
+  .outer{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:48px 20px 72px}
+  .page{width:100%;max-width:680px;display:flex;flex-direction:column;gap:6px}
 
-  /* header */
-  .cv-head{padding-bottom:28px;border-bottom:1px solid var(--line);margin-bottom:36px}
-  .cv-name{font-size:26px;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin-bottom:4px}
-  .cv-role{font-size:14px;color:var(--ink-2);margin-bottom:14px}
-  .cv-meta{display:flex;flex-wrap:wrap;gap:0;align-items:center}
-  .cv-meta a,.cv-meta span{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);letter-spacing:.01em;transition:color .15s}
-  .cv-meta a:hover{color:var(--accent)}
-  .cv-meta .sep{margin:0 10px;color:var(--line)}
-  .status{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:11px;
-    color:#1a7a4a;background:#edfaf4;border:1px solid #b6e8ce;border-radius:20px;padding:3px 10px;margin-left:16px}
-  .status::before{content:"";width:5px;height:5px;border-radius:50%;background:#22c55e;flex-shrink:0}
+  /* top accent */
+  .accent-bar{height:3px;background:var(--accent);border-radius:2px;width:40px;margin-bottom:28px}
 
-  /* sections */
-  .sec{margin-bottom:36px}
-  .sec-title{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
-    color:var(--ink-3);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  /* header card */
+  .cv-head{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px 30px}
+  .cv-name{font-size:22px;font-weight:600;letter-spacing:-.025em;color:var(--ink);margin-bottom:3px}
+  .cv-role{font-size:13px;color:var(--ink-3);margin-bottom:16px;font-weight:400}
+  .cv-links{display:flex;flex-wrap:wrap;align-items:center;gap:6px 0}
+  .cv-links a,.cv-links span{font-family:var(--mono);font-size:11px;color:var(--ink-3);transition:color .15s}
+  .cv-links a:hover{color:var(--accent)}
+  .cv-links .sep{margin:0 8px;color:var(--line)}
+  .badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10.5px;
+    color:#16a34a;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:20px;padding:2px 9px;margin-left:10px}
+  .badge::before{content:"";width:5px;height:5px;border-radius:50%;background:#22c55e;animation:blink 2s infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+
+  /* section */
+  .sec{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .sec-head{padding:14px 20px;border-bottom:1px solid var(--line);background:var(--bg)}
+  .sec-head span{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
 
   /* about */
-  .about-text{font-size:14px;color:var(--ink-2);line-height:1.7;max-width:620px}
-  .about-text strong{color:var(--ink);font-weight:500}
+  .about-body{padding:18px 20px}
+  .about-body p{font-size:13.5px;color:var(--ink-2);line-height:1.7}
+  .about-body strong{color:var(--ink);font-weight:500}
 
   /* experience */
-  .exp-list{display:flex;flex-direction:column;gap:0}
-  .exp{display:grid;grid-template-columns:1fr 120px;gap:16px;padding:18px 0;border-bottom:1px solid var(--line)}
-  .exp:first-child{padding-top:0}
-  .exp:last-child{border-bottom:none;padding-bottom:0}
-  .exp-co{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:1px}
-  .exp-role{font-size:12.5px;color:var(--accent);margin-bottom:10px;font-weight:500}
-  .exp-bullets{list-style:none;display:flex;flex-direction:column;gap:5px}
-  .exp-bullets li{font-size:13px;color:var(--ink-2);padding-left:16px;position:relative;line-height:1.55}
-  .exp-bullets li::before{content:"·";position:absolute;left:4px;color:var(--ink-3)}
-  .exp-bullets li strong{color:var(--ink);font-weight:500}
-  .exp-date{font-family:var(--mono);font-size:11px;color:var(--ink-3);text-align:right;padding-top:2px;white-space:nowrap}
+  .exp-item{padding:18px 20px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr auto;gap:16px}
+  .exp-item:last-child{border-bottom:none}
+  .exp-co{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:1px}
+  .exp-role{font-size:12px;color:var(--accent);font-weight:500;margin-bottom:10px}
+  .exp-tag{display:inline-block;font-family:var(--mono);font-size:10px;padding:1px 7px;
+    background:var(--accent-light);color:var(--accent);border-radius:4px;margin-bottom:10px}
+  .bullets{list-style:none;display:flex;flex-direction:column;gap:6px}
+  .bullets li{font-size:13px;color:var(--ink-2);padding-left:14px;position:relative;line-height:1.6}
+  .bullets li::before{content:"–";position:absolute;left:0;color:var(--ink-3);font-size:11px;top:2px}
+  .bullets li strong{color:var(--ink);font-weight:500}
+  .exp-right{text-align:right;white-space:nowrap;padding-top:2px}
+  .exp-right span{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);display:block;line-height:1.7}
 
   /* projects */
-  .proj-list{display:flex;flex-direction:column;gap:0}
-  .proj{display:grid;grid-template-columns:1fr 100px;gap:16px;padding:16px 0;border-bottom:1px solid var(--line);align-items:start}
-  .proj:first-child{padding-top:0}
-  .proj:last-child{border-bottom:none;padding-bottom:0}
-  .proj-name{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:3px;display:flex;align-items:center;gap:8px}
-  .proj-name a{color:var(--accent);font-family:var(--mono);font-size:10.5px;font-weight:400;border-bottom:1px solid transparent;transition:border-color .15s}
+  .proj-item{padding:16px 20px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr 80px;gap:16px;align-items:start}
+  .proj-item:last-child{border-bottom:none}
+  .proj-name{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:3px;display:flex;align-items:center;gap:8px}
+  .proj-name a{font-family:var(--mono);font-size:10px;color:var(--accent);border-bottom:1px solid transparent;transition:border-color .15s;font-weight:400}
   .proj-name a:hover{border-color:var(--accent)}
-  .proj-desc{font-size:13px;color:var(--ink-2);line-height:1.55;margin-bottom:8px}
+  .proj-desc{font-size:13px;color:var(--ink-2);line-height:1.6;margin-bottom:9px}
   .proj-desc strong{color:var(--ink);font-weight:500}
-  .tags{display:flex;flex-wrap:wrap;gap:5px}
-  .tag{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);background:var(--accent-bg);
-    padding:2px 8px;border-radius:4px;letter-spacing:.01em}
-  .proj-metric{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);text-align:right;line-height:1.5}
-  .proj-metric strong{color:var(--accent);display:block;font-size:15px;font-weight:600;letter-spacing:-.01em}
+  .tags{display:flex;flex-wrap:wrap;gap:4px}
+  .tag{font-family:var(--mono);font-size:10px;color:var(--ink-3);background:var(--bg);
+    border:1px solid var(--line);padding:2px 7px;border-radius:4px}
+  .proj-stat{text-align:right}
+  .proj-stat .num{font-size:17px;font-weight:600;color:var(--accent);letter-spacing:-.02em;line-height:1.2}
+  .proj-stat .lbl{font-family:var(--mono);font-size:9.5px;color:var(--ink-3);line-height:1.4;margin-top:1px}
 
   /* skills */
-  .skill-rows{display:flex;flex-direction:column;gap:10px}
-  .skill-row{display:grid;grid-template-columns:120px 1fr;gap:12px;align-items:baseline}
-  .skill-label{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--ink-3)}
-  .skill-vals{font-size:13px;color:var(--ink-2);line-height:1.5}
+  .skill-body{padding:16px 20px;display:flex;flex-direction:column;gap:10px}
+  .skill-row{display:grid;grid-template-columns:110px 1fr;gap:10px;align-items:baseline}
+  .skill-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:var(--ink-3)}
+  .skill-val{font-size:13px;color:var(--ink-2);line-height:1.55}
 
   /* education */
-  .edu{display:grid;grid-template-columns:1fr 100px;gap:16px}
-  .edu-name{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:2px}
+  .edu-body{padding:16px 20px;display:grid;grid-template-columns:1fr auto;gap:16px}
+  .edu-name{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:2px}
   .edu-deg{font-size:13px;color:var(--ink-2)}
-  .edu-date{font-family:var(--mono);font-size:11px;color:var(--ink-3);text-align:right;padding-top:2px}
+  .edu-right{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);text-align:right;line-height:1.7}
 
-  footer{border-top:1px solid var(--line);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
-  footer span{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+  /* footer */
+  .cv-foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;padding:0 4px;margin-top:4px}
+  .cv-foot span{font-family:var(--mono);font-size:10.5px;color:var(--ink-3)}
+  .cv-foot a{font-family:var(--mono);font-size:10.5px;color:var(--accent)}
 
-  @media(max-width:560px){
-    .page{padding:40px 20px 60px}
-    .exp{grid-template-columns:1fr}
-    .exp-date{text-align:left}
-    .proj{grid-template-columns:1fr}
-    .proj-metric{text-align:left}
-    .edu{grid-template-columns:1fr}
-    .edu-date{text-align:left}
-    .skill-row{grid-template-columns:100px 1fr}
+  @media(max-width:540px){
+    .exp-item,.proj-item{grid-template-columns:1fr}
+    .exp-right,.proj-stat{text-align:left}
+    .edu-body{grid-template-columns:1fr}
+    .edu-right{text-align:left}
+    .skill-row{grid-template-columns:90px 1fr}
+    .outer{padding:28px 14px 56px}
   }
 </style>
 </head>
 <body>
+<div class="outer">
 <div class="page">
+
+  <div class="accent-bar"></div>
 
   <!-- Header -->
   <div class="cv-head">
     <div class="cv-name">Shubhansu Singh Bhadoria</div>
-    <div class="cv-role">Full-Stack Engineer — dashboards, real-time systems, cross-platform mobile</div>
-    <div class="cv-meta">
+    <div class="cv-role">Full-Stack Engineer &mdash; dashboards, real-time systems, cross-platform mobile</div>
+    <div class="cv-links">
       <a href="mailto:shubhansusb90@gmail.com">shubhansusb90@gmail.com</a>
       <span class="sep">·</span>
       <a href="https://github.com/Shubhansusb" target="_blank" rel="noopener">github.com/Shubhansusb</a>
@@ -121,157 +131,136 @@
       <a href="https://www.linkedin.com/in/shubhansu/" target="_blank" rel="noopener">linkedin/shubhansu</a>
       <span class="sep">·</span>
       <span>Bangalore, India</span>
-      <span class="status">Open to remote</span>
+      <span class="badge">Open to remote</span>
     </div>
   </div>
 
   <!-- About -->
   <div class="sec">
-    <div class="sec-title">About</div>
-    <p class="about-text">
-      Full-stack engineer with <strong>3+ years of production experience</strong> at a large US-based fantasy-sports company — building high-traffic consumer SaaS at real scale. Frontend-leaning but owns the full stack: complex React dashboards, cross-platform mobile, real-time data systems, and the Node.js APIs behind them. Outside my day job I've <strong>sole-built two client platforms</strong> end to end — one of which now drives ₹2L+/month in recurring revenue for the client.
-    </p>
+    <div class="sec-head"><span>About</span></div>
+    <div class="about-body">
+      <p>Full-stack engineer with <strong>3+ years of production experience</strong> at a large US-based fantasy-sports company — building high-traffic consumer SaaS at real scale. Frontend-leaning but owns the full stack: complex React dashboards, cross-platform mobile, real-time data systems, and the Node.js APIs behind them. Outside my day job I've <strong>sole-built two client platforms</strong> end to end — one of which now drives ₹2L+/month in recurring revenue for the client.</p>
+    </div>
   </div>
 
   <!-- Experience -->
   <div class="sec">
-    <div class="sec-title">Experience</div>
-    <div class="exp-list">
+    <div class="sec-head"><span>Experience</span></div>
 
-      <div class="exp">
-        <div>
-          <div class="exp-co">ParlayPlay — US Fantasy-Sports Platform</div>
-          <div class="exp-role">Software Engineer (Mobile + Frontend)</div>
-          <ul class="exp-bullets">
-            <li>Integrated <strong>OTA updates (Capacitor + Appflow)</strong> into the iOS and Android app — eliminating App Store / Play Store review for JS/UI changes and cutting release turnaround from <strong>1–3 days to same-day deploys</strong>.</li>
-            <li>Implemented <strong>client-side rollback</strong> so devices automatically revert to the last known-good bundle when a new OTA update fails — preventing broken releases from reaching production users.</li>
-          </ul>
-        </div>
-        <div class="exp-date">Current<br>Remote</div>
+    <div class="exp-item">
+      <div>
+        <div class="exp-co">ParlayPlay &mdash; US Fantasy-Sports Platform</div>
+        <div class="exp-role">Software Engineer (Mobile + Frontend)</div>
+        <ul class="bullets">
+          <li>Integrated <strong>OTA updates (Capacitor + Appflow)</strong> into the iOS and Android app — eliminating App Store / Play Store review for JS/UI changes and cutting release turnaround from <strong>1–3 days to same-day deploys</strong>.</li>
+          <li>Implemented <strong>client-side rollback</strong> so devices automatically revert to the last known-good bundle when a new OTA update fails — preventing broken releases from reaching production users.</li>
+        </ul>
       </div>
-
-      <div class="exp">
-        <div>
-          <div class="exp-co">SRJFT Solutions</div>
-          <div class="exp-role">Frontend Software Developer</div>
-          <ul class="exp-bullets">
-            <li>Built a <strong>high-frequency trading terminal</strong> — real-time P&L tracking, live order logs, strategy creation. <strong>10,000+ live rows</strong> virtualised with TanStack React Virtual + AG Grid.</li>
-            <li>Achieved <strong>47% bundle reduction</strong> via React.lazy + Suspense code-splitting across the trading dashboard.</li>
-            <li>Built custom <strong>Axios interceptors</strong> for automatic token refresh, request queuing, and exponential backoff error retry.</li>
-            <li>Developed and maintained the <strong>full trading platform dashboard</strong> — market data, order management, payment systems, admin RMS — using Redux Toolkit + RTK Query.</li>
-          </ul>
-        </div>
-        <div class="exp-date">Bangalore</div>
-      </div>
-
-      <div class="exp">
-        <div>
-          <div class="exp-co">Freelance / Northbound Studio</div>
-          <div class="exp-role">Full-Stack Engineer</div>
-          <ul class="exp-bullets">
-            <li>Found a coaching client through Instagram cold outreach; sole-built their entire business platform — <strong>client CRM, Twilio WhatsApp inbox, Cloudinary pipeline</strong> — front to back. Platform drives <strong>₹2L+/month</strong>.</li>
-            <li>Built <strong>rjautosales.in</strong> — full-stack auto dealer platform with customer storefront and admin inventory management. Live in production.</li>
-            <li>Currently building an <strong>HRMS platform 0→1</strong> with a product designer partner — typed React/Vite frontend wired to a real API.</li>
-          </ul>
-        </div>
-        <div class="exp-date">2023 — Present<br>Remote</div>
-      </div>
-
+      <div class="exp-right"><span>Current</span><span>Remote</span></div>
     </div>
+
+    <div class="exp-item">
+      <div>
+        <div class="exp-co">SRJFT Solutions</div>
+        <div class="exp-role">Frontend Software Developer</div>
+        <ul class="bullets">
+          <li>Built a <strong>high-frequency trading terminal</strong> — real-time P&L tracking, live order logs, strategy creation powered by custom WebSocket hooks on live market data.</li>
+          <li>Virtualised <strong>10,000+ live data rows</strong> with TanStack React Virtual + AG Grid, eliminating render lag on fast-updating streams.</li>
+          <li>Achieved <strong>47% bundle reduction</strong> via React.lazy + Suspense code-splitting across the trading dashboard.</li>
+          <li>Built custom <strong>Axios interceptors</strong> for token refresh, request queuing, and exponential backoff — zero auth interruptions in production.</li>
+        </ul>
+      </div>
+      <div class="exp-right"><span>Bangalore</span></div>
+    </div>
+
+    <div class="exp-item">
+      <div>
+        <div class="exp-co">Freelance / Northbound Studio</div>
+        <div class="exp-role">Full-Stack Engineer</div>
+        <ul class="bullets">
+          <li>Found a coaching client via Instagram cold outreach; sole-built their entire platform — <strong>client CRM, Twilio WhatsApp inbox, Cloudinary pipeline</strong> — front to back. Platform drives <strong>₹2L+/month</strong>.</li>
+          <li>Built <strong>rjautosales.in</strong> — full-stack auto dealer platform with customer storefront and admin inventory management. Live in production.</li>
+          <li>Currently building an <strong>HRMS platform 0→1</strong> with a product designer partner — typed React/Vite frontend wired to a real API.</li>
+        </ul>
+      </div>
+      <div class="exp-right"><span>Remote</span></div>
+    </div>
+
   </div>
 
   <!-- Projects -->
   <div class="sec">
-    <div class="sec-title">Projects</div>
-    <div class="proj-list">
+    <div class="sec-head"><span>Projects</span></div>
 
-      <div class="proj">
-        <div>
-          <div class="proj-name">HFT Trading Terminal</div>
-          <div class="proj-desc">High-frequency trading terminal for a US consumer SaaS platform. Real-time P&L, live order logs, strategy creation. <strong>10,000+ rows rendered live</strong> via AG Grid + React Virtual. Custom WebSocket hooks, useMemo/useCallback for render performance.</div>
-          <div class="tags"><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">AG Grid</span><span class="tag">WebSockets</span><span class="tag">Redux Toolkit</span><span class="tag">React Virtual</span></div>
-        </div>
-        <div class="proj-metric"><strong>47%</strong>bundle reduction<br>10K+ live rows</div>
+    <div class="proj-item">
+      <div>
+        <div class="proj-name">HFT Trading Terminal</div>
+        <div class="proj-desc">High-frequency trading terminal for a US consumer SaaS platform. Real-time P&L, live order logs, and strategy creation. <strong>10,000+ rows rendered live</strong> via AG Grid + React Virtual with custom WebSocket hooks.</div>
+        <div class="tags"><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">AG Grid</span><span class="tag">WebSockets</span><span class="tag">Redux Toolkit</span><span class="tag">React Virtual</span></div>
       </div>
-
-      <div class="proj">
-        <div>
-          <div class="proj-name">Elite Sangram Platform <a href="https://sangramdeb.com" target="_blank" rel="noopener">↗</a></div>
-          <div class="proj-desc">Full business platform for a fitness-coaching brand. Role-based admin (owner + staff), client CRM, prospect pipeline, plan & testimonial management. Centrepiece: <strong>custom Twilio-powered WhatsApp unified inbox</strong> — every client conversation in one screen. Built solo, front to back.</div>
-          <div class="tags"><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">Node.js</span><span class="tag">Twilio</span><span class="tag">Cloudinary</span></div>
-        </div>
-        <div class="proj-metric"><strong>₹2L+</strong>monthly revenue<br>Solo-built</div>
-      </div>
-
-      <div class="proj">
-        <div>
-          <div class="proj-name">RJ Auto Sales <a href="https://www.rjautosales.in" target="_blank" rel="noopener">↗ live</a></div>
-          <div class="proj-desc">Full-stack platform for an auto dealership — customer-facing storefront with inventory browsing, and an admin side for stock and enquiry management. Mobile-optimised, live in production.</div>
-          <div class="tags"><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">Node.js</span><span class="tag">PostgreSQL</span></div>
-        </div>
-        <div class="proj-metric"><strong>Live</strong>rjautosales.in</div>
-      </div>
-
-      <div class="proj">
-        <div>
-          <div class="proj-name">HRMS Platform <span style="font-family:var(--mono);font-size:10.5px;color:var(--ink-3);font-weight:400">— in progress</span></div>
-          <div class="proj-desc">People platform built 0→1 — org management, locations, auth, HR workflows. Designed in Figma by a product designer partner; I build the typed React/Vite frontend wired to a real API.</div>
-          <div class="tags"><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">Vite</span><span class="tag">NestJS</span><span class="tag">REST APIs</span></div>
-        </div>
-        <div class="proj-metric"><strong>0→1</strong>design → code</div>
-      </div>
-
+      <div class="proj-stat"><div class="num">47%</div><div class="lbl">bundle<br>reduction</div></div>
     </div>
+
+    <div class="proj-item">
+      <div>
+        <div class="proj-name">Elite Sangram Platform <a href="https://sangramdeb.com" target="_blank" rel="noopener">↗</a></div>
+        <div class="proj-desc">Full business platform for a fitness-coaching brand — role-based admin, client CRM, prospect pipeline, and a <strong>custom Twilio-powered WhatsApp inbox</strong>. Built solo, front to back.</div>
+        <div class="tags"><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">Node.js</span><span class="tag">Twilio</span><span class="tag">Cloudinary</span></div>
+      </div>
+      <div class="proj-stat"><div class="num">₹2L+</div><div class="lbl">monthly<br>revenue</div></div>
+    </div>
+
+    <div class="proj-item">
+      <div>
+        <div class="proj-name">RJ Auto Sales <a href="https://www.rjautosales.in" target="_blank" rel="noopener">↗ live</a></div>
+        <div class="proj-desc">Full-stack platform for an auto dealership — customer storefront with inventory browsing and an admin side for stock and enquiry management. Mobile-optimised, live in production.</div>
+        <div class="tags"><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">Node.js</span><span class="tag">PostgreSQL</span></div>
+      </div>
+      <div class="proj-stat"><div class="num" style="font-size:13px;padding-top:4px">Live</div><div class="lbl">rjautosales<br>.in</div></div>
+    </div>
+
+    <div class="proj-item">
+      <div>
+        <div class="proj-name">HRMS Platform <span style="font-family:var(--mono);font-size:10px;color:var(--ink-3);font-weight:400">in progress</span></div>
+        <div class="proj-desc">People platform 0→1 — org management, locations, auth, HR workflows. Designed in Figma by a product designer partner; I build the typed React/Vite frontend against a real API.</div>
+        <div class="tags"><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">Vite</span><span class="tag">NestJS</span><span class="tag">REST APIs</span></div>
+      </div>
+      <div class="proj-stat"><div class="num" style="font-size:13px;padding-top:4px">0→1</div><div class="lbl">design<br>to code</div></div>
+    </div>
+
   </div>
 
   <!-- Skills -->
   <div class="sec">
-    <div class="sec-title">Skills</div>
-    <div class="skill-rows">
-      <div class="skill-row">
-        <span class="skill-label">Frontend</span>
-        <span class="skill-vals">React, TypeScript, Vite, React Router, Redux Toolkit, RTK Query, React Query, Tailwind CSS</span>
-      </div>
-      <div class="skill-row">
-        <span class="skill-label">Mobile</span>
-        <span class="skill-vals">React Native, Capacitor (iOS + Android from one codebase)</span>
-      </div>
-      <div class="skill-row">
-        <span class="skill-label">Backend</span>
-        <span class="skill-vals">Node.js, Express.js, NestJS, REST APIs, Auth + RBAC (JWT), PostgreSQL, Redis</span>
-      </div>
-      <div class="skill-row">
-        <span class="skill-label">Real-time</span>
-        <span class="skill-vals">WebSockets, Socket.io, AG Grid, TanStack React Virtual, live dashboards</span>
-      </div>
-      <div class="skill-row">
-        <span class="skill-label">Integrations</span>
-        <span class="skill-vals">Twilio, Cloudinary, payments, third-party APIs, Axios interceptors</span>
-      </div>
-      <div class="skill-row">
-        <span class="skill-label">Tooling</span>
-        <span class="skill-vals">Git, GitHub, Figma (handoff), Vercel, CI/CD, React.lazy + Suspense</span>
-      </div>
+    <div class="sec-head"><span>Skills</span></div>
+    <div class="skill-body">
+      <div class="skill-row"><span class="skill-label">Frontend</span><span class="skill-val">React, TypeScript, Vite, React Router, Redux Toolkit, RTK Query, React Query, Tailwind CSS</span></div>
+      <div class="skill-row"><span class="skill-label">Mobile</span><span class="skill-val">React Native, Capacitor (iOS + Android), Appflow OTA</span></div>
+      <div class="skill-row"><span class="skill-label">Backend</span><span class="skill-val">Node.js, Express.js, NestJS, REST APIs, Auth + RBAC (JWT), PostgreSQL, Redis</span></div>
+      <div class="skill-row"><span class="skill-label">Real-time</span><span class="skill-val">WebSockets, Socket.io, AG Grid, TanStack React Virtual, live dashboards</span></div>
+      <div class="skill-row"><span class="skill-label">Integrations</span><span class="skill-val">Twilio, Cloudinary, Payments, Axios interceptors, third-party APIs</span></div>
+      <div class="skill-row"><span class="skill-label">Tooling</span><span class="skill-val">Git, GitHub, Figma (handoff), Vercel, CI/CD, React.lazy + Suspense</span></div>
     </div>
   </div>
 
   <!-- Education -->
   <div class="sec">
-    <div class="sec-title">Education</div>
-    <div class="edu">
+    <div class="sec-head"><span>Education</span></div>
+    <div class="edu-body">
       <div>
         <div class="edu-name">Jabalpur Engineering College</div>
-        <div class="edu-deg">B.Tech, Information Technology — CGPA 7.6</div>
+        <div class="edu-deg">B.Tech, Information Technology &mdash; CGPA 7.6</div>
       </div>
-      <div class="edu-date">2019 — 2023<br>Jabalpur, MP</div>
+      <div class="edu-right"><span>2019 – 2023</span><br><span>Jabalpur, MP</span></div>
     </div>
   </div>
 
-  <footer>
-    <span>Shubhansu Singh Bhadoria · Full-Stack Engineer · 2026</span>
-    <span><a href="https://northbound-studio-o6hrrj7hr-shubhansusbs-projects.vercel.app" target="_blank" rel="noopener" style="color:var(--accent)">Studio site ↗</a></span>
-  </footer>
+  <div class="cv-foot">
+    <span>Shubhansu Singh Bhadoria &middot; 2026</span>
+    <a href="https://northbound-studio-o6hrrj7hr-shubhansusbs-projects.vercel.app" target="_blank" rel="noopener">Studio site ↗</a>
+  </div>
 
+</div>
 </div>
 </body>
 </html>
